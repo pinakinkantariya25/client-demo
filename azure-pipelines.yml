@@ -9,7 +9,9 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  buildId: '$(Build.BuildId)'
+  tag: 'dev'
+  repository: 'vsite-web-fe'
 
 stages:
 - stage: Build
@@ -26,7 +28,17 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        repository: 'vsite_web_fe'
+        repository: '$(repository)'
         command: 'build'
         Dockerfile: '**/Dockerfile'
-        tags: 'dev'
+        tags: '$(tag)'
+- stage: Run
+  displayName: Run image
+  jobs:
+  - job: Run
+    displayName: Run
+    pool: Default
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: 'docker run -it --rm -d -p 80:80 --name web $(repository):$(tag)'
