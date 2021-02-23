@@ -17,13 +17,16 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+    pool: Default
     steps:
+    - task: CmdLine@2
+      inputs:
+        script: 'whoami && echo Write your commands here.'
+        
     - task: Docker@2
       displayName: Build an image
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
+        repository: 'vsite_web_fe'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: 'dev'
