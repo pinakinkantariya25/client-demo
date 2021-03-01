@@ -1,0 +1,3 @@
+export const DETAIL_START = "DETAIL_START";
+export const DETAIL_SUCCESS = "DETAIL_SUCCESS";
+export const DETAIL_ERROR = "DETAIL_ERROR";
