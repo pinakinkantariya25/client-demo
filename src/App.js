@@ -7,7 +7,7 @@ import "./styles/index.scss";
 
 class App extends Component {
   componentDidMount() {
-    this.props.getDetail();
+    // this.props.getDetail();
   }
   render() {
     const childProps = {};
@@ -24,7 +24,7 @@ const mapStateToProps = ({ auth }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDetail: () => dispatch(getDetail()),
+  // getDetail: () => dispatch(getDetail()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
