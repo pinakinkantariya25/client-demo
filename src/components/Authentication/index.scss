@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import '../../styles/base/variables';
 
 /*Authatication screen*/
@@ -73,3 +74,49 @@
   }
 }
 /*End Authatication screen*/
+=======
+@import '../../styles/base/variables';
+
+/*Authatication screen*/
+.main-authaticatoin-wraper {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  padding: 15px 0;
+  background-color: #e9ecef;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  .auth-center-segment {
+    display: flex;
+    flex-flow: column;
+    max-width: 400px;
+    margin: 0 15px;
+    width: 100%;
+    .auth-logo-top {
+      width: 150px;
+      margin: 0 auto;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .auth-form-field-section {
+      display: flex;
+      padding: 40px;
+      box-shadow: 0 0 10px #808080;
+      background-color: $white;
+    }
+    .authatication-form {
+      width: 100%;
+    }
+    .form-control {
+      padding-right: 30px;
+    }
+    .forgot-password,
+    .sign-in {
+      color: $blue-secondary;
+    }
+  }
+}
+/*End Authatication screen*/
+>>>>>>> api-redux
