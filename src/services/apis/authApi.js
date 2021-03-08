@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import api from "./api";
-
-export default class AuthAPI {
-  getDetail() {
-    return api.get("/todos/1");
-  }
-}
-=======
 import api from "./api";
 
 export default class AuthAPI {
@@ -17,4 +8,3 @@ export default class AuthAPI {
     return api.post('/posts', formData);
   }
 }
->>>>>>> api-redux

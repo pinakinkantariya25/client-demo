@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-export const DETAIL_START = "DETAIL_START";
-export const DETAIL_SUCCESS = "DETAIL_SUCCESS";
-export const DETAIL_ERROR = "DETAIL_ERROR";
-=======
 export const DETAIL_START = "DETAIL_START";
 export const DETAIL_SUCCESS = "DETAIL_SUCCESS";
 export const DETAIL_ERROR = "DETAIL_ERROR";
@@ -16,4 +11,3 @@ export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 // Snackbar
 export const SET_SNACKBAR = "SET_SNACKBAR";
->>>>>>> api-redux
