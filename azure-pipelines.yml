@@ -42,4 +42,4 @@ stages:
     steps:
     - task: CmdLine@2
       inputs:
-        script: 'cd /home/ubuntu/deployments/ && docker-compose up -d --no-recreate $(container)'
+        script: 'cd /home/ubuntu/deployments/ && docker-compose down && docker volume rm web_fe_static && docker-compose up -d'
