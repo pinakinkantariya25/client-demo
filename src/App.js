@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getDetail } from "./actions/authAction";
 import Routes from "./routes";
 import "./App.css";
-import "./index.scss";
+import "./styles/index.scss";
 
 class App extends Component {
   componentDidMount() {
