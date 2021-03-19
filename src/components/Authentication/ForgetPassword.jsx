@@ -36,10 +36,6 @@ const ForgetPassword = () => {
                   closeButton: CloseIcon,
                   className: commonMessages.success,
                 });
-                // toast(<>Some kind of Message<LoaderIcon /></>, {
-                //   closeButton: false,
-                //   className: commonMessages.uploadImg,
-                // });
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string().email().required('Email is required'),
