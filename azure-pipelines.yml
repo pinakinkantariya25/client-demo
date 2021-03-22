@@ -1,44 +1,45 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
 trigger:
-- develop
+  - develop
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
   buildId: '$(Build.BuildId)'
   tag: 'dev'
   repository: 'vsite-web-fe'
+  container: 'web_fe'
+
+pool: Default
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool: Default
-    steps:
-    - task: CmdLine@2
-      inputs:
-        script: 'whoami && echo Write your commands here.'
-        
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        repository: '$(repository)'
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
-- stage: Run
-  displayName: Run image
-  jobs:
-  - job: Run
-    displayName: Run
-    pool: Default
-    steps:
-    - task: CmdLine@2
-      inputs:
-        script: 'docker stop web && docker run -it --rm -d -p 80:80 --name web $(repository):$(tag)'
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build image
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'pwd && ls -a'
+          - task: Docker@2
+            displayName: Build an image
+            inputs:
+              repository: '$(repository)'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+              tags: '$(tag)'
+  - stage: Deploy
+    displayName: Deploy to nginx
+    jobs:
+      - job: Deploy
+        displayName: Deploy
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'cd /home/ubuntu/deployments/ && docker-compose down && docker volume rm web_fe_static && docker-compose up -d'

@@ -1,7 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const TextInput = (props) => {
-  const {type, name, placeholder, value, onChange, onBlur, error, touched} = props;
+  const {
+    type,
+    name,
+    placeholder,
+    value,
+    onChange,
+    onBlur,
+    error,
+    touched,
+  } = props;
 
   return (
     <div className="form-group">
@@ -15,9 +24,9 @@ const TextInput = (props) => {
           onChange={onChange}
           onBlur={onBlur}
         />
-        {props.icon ? props.icon : ''}
+        {props.icon ? props.icon : ""}
       </div>
-      {error && touched && (<div className="form-error">{error}</div>)}
+      {error && touched && <div className="form-error">{error}</div>}
     </div>
   );
 };

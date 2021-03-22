@@ -4,8 +4,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import TextInput from '../common/TextInput';
-import Snackbar from '@material-ui/core/Snackbar';
-import {setSnackbar} from '../../actions/snackBarAction';
+import { toast } from "react-toastify";
+import {commonMessages} from '../../constants/commonMessages';
+import CloseIcon from '../common/CloseIcon';
+import LoaderIcon from '../common/LoaderIcon';
 import Vsite from '../../images/Vsite.png';
 import './index.scss';
 
@@ -29,14 +31,11 @@ const ForgetPassword = () => {
             <Formik
               initialValues={{ email: '' }}
               onSubmit={(values, { setSubmitting }) => {
-                dispatch(
-                  setSnackbar(
-                    true,
-                    { vertical: 'top', horizontal: 'center' },
-                    "success",
-                    "We have sent a link to reset your password. please Check Mail"
-                  )
-                )
+                console.log(values);
+                toast("We have sent a link to reset your password. please Check Mail", {
+                  closeButton: CloseIcon,
+                  className: commonMessages.success,
+                });
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string().email().required('Email is required'),

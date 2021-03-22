@@ -1,7 +1,9 @@
 import * as actionTypes from "./actionTypes";
-import {setSnackbar} from './snackBarAction';
 import authService from "../services/authService";
 import {dehydrateSignIn} from '../services/transformers/authTransformer';
+import { toast } from "react-toastify";
+import CloseIcon from '../components/common/CloseIcon';
+import {commonMessages} from '../constants/commonMessages';
 
 const startLogin = () => {
   return {
@@ -62,14 +64,10 @@ export const resetPassword = (formProps) => async (dispatch) => {
     .postFormData(formProps)
     .then((res) => {
       dispatch(successResetPassword(res));
-      dispatch(
-        setSnackbar(
-          true,
-          { vertical: 'top', horizontal: 'center' },
-          "success",
-          "Your password has been updated successfully."
-        )
-      )
+      toast("Your password has been updated successfully.", {
+        closeButton: CloseIcon,
+        className: commonMessages.success,
+      });
       // localStorage.setItem("token", res);
     })
     .catch((err) => {

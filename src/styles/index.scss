@@ -128,6 +128,97 @@ textarea.form-control {
   color: $btn-gray;
 }
 
+/* Toggle Button Fro Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+}
+.toggle input[type='checkbox'] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  position: absolute;
+}
+.toggle label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 40px;
+  height: 20px;
+  background: #cecece;
+  display: block;
+  border-radius: 50px;
+  position: relative;
+}
+.toggle label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 16px;
+  transition: 0.3s;
+}
+.toggle input:checked + label {
+  background: #256ca9;
+}
+.toggle input:checked + label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+/* Toggle Button Fro Switch END*/
+
+/* ROW Columns Class */
+.vrow {
+  margin: 0 -15px;
+}
+.vrow::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+[class*='vcol-'] {
+  float: left;
+  padding: 0 15px;
+}
+.vcol-1 {
+  width: 8.33%;
+}
+.vcol-2 {
+  width: 16.66%;
+}
+.vcol-3 {
+  width: 25%;
+}
+.vcol-4 {
+  width: 33.33%;
+}
+.vcol-5 {
+  width: 41.66%;
+}
+.vcol-6 {
+  width: 50%;
+}
+.vcol-7 {
+  width: 58.33%;
+}
+.vcol-8 {
+  width: 66.66%;
+}
+.vcol-9 {
+  width: 75%;
+}
+.vcol-10 {
+  width: 83.33%;
+}
+.vcol-11 {
+  width: 91.66%;
+}
+.vcol-12 {
+  width: 100%;
+}
+
 /* Scrollbar */
 .scroll-bar-style::-webkit-scrollbar {
   width: 8px;
@@ -139,4 +230,40 @@ textarea.form-control {
 .scroll-bar-style::-webkit-scrollbar-thumb {
   background-color: $blue-primary; /* outline: 1px solid #B1BFCB; */
   border-radius: 8px;
+}
+
+.Toastify__toast-container {
+  width: auto;
+  .Toastify__toast {
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    max-width: 440px;
+    box-shadow: 0px 0px 13px 0px #404040;
+    min-height: 1px;
+    color: #fff;
+    &.success {
+      background: rgb(2, 158, 0);
+    }
+    &.error {
+      background: rgb(255, 0, 0);
+    }
+    &.upload-img {
+      background: rgb(0, 0, 0);
+    }
+    &.warning {
+      background: rgb(243, 168, 0);
+    }
+    .Toastify__toast-body {
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .cross-btn {
+      color: #fff;
+    }
+  }
 }
