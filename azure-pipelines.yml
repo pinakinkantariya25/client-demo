@@ -4,10 +4,10 @@
 # https://aka.ms/yaml
 
 trigger:
-- develop
+  - develop
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
   buildId: '$(Build.BuildId)'
@@ -18,28 +18,28 @@ variables:
 pool: Default
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
+  - stage: Build
     displayName: Build image
-    steps:
-    - task: CmdLine@2
-      inputs:
-        script: 'pwd && ls -a'
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        repository: '$(repository)'
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
-- stage: Deploy
-  displayName: Deploy to nginx
-  jobs:
-  - job: Deploy
-    displayName: Deploy
-    steps:
-    - task: CmdLine@2
-      inputs:
-        script: 'cd /home/ubuntu/deployments/ && docker-compose down && docker volume rm web_fe_static && docker-compose up -d'
+    jobs:
+      - job: Build
+        displayName: Build image
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'pwd && ls -a'
+          - task: Docker@2
+            displayName: Build an image
+            inputs:
+              repository: '$(repository)'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+              tags: '$(tag)'
+  - stage: Deploy
+    displayName: Deploy to nginx
+    jobs:
+      - job: Deploy
+        displayName: Deploy
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'cd /home/ubuntu/deployments/ && docker-compose down && docker volume rm web_fe_static && docker-compose up -d'
