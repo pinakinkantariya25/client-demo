@@ -13,4 +13,9 @@ export default class AuthAPI {
   postResetPassword(formData) {
     return api.post('/user/reset-password', formData);
   }
+
+
+  changePassword(formData) {
+    return api.post("/user/change-password", formData);
+  }
 }

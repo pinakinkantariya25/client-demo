@@ -12,6 +12,9 @@ class AuthService {
   postResetPassword(formData) {
     return api.auth.postResetPassword(formData);
   }
+  changePassword(formData) {
+    return api.auth.changePassword(formData);
+  }
 }
 
 export default new AuthService();
