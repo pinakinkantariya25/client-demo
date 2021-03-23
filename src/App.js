@@ -6,25 +6,21 @@ import "./App.css";
 import "./styles/index.scss";
 
 class App extends Component {
-  componentDidMount() {
-    // this.props.getDetail();
-  }
   render() {
     const childProps = {};
     return (
       <div className="App">
-        <Routes childProps={childProps} />
+        <Routes userId={this.props.userId} childProps={childProps} />
       </div>
     );
   }
 }
 
 const mapStateToProps = ({ auth }) => ({
-  details: auth.data,
+  userId: auth.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // getDetail: () => dispatch(getDetail()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

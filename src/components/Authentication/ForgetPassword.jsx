@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Formik } from 'formik';
+import {useSelector, connect} from 'react-redux';
 import * as Yup from 'yup';
-import { useDispatch } from "react-redux";
 import TextInput from '../common/TextInput';
-import { toast } from "react-toastify";
+import {forgotPassword} from '../../actions/authAction';
 import {commonMessages} from '../../constants/commonMessages';
 import CloseIcon from '../common/CloseIcon';
-import LoaderIcon from '../common/LoaderIcon';
 import Vsite from '../../images/Vsite.png';
 import './index.scss';
 
-const ForgetPassword = () => {
-  const [alertOpen, setAlertOpen] = useState(false);
-  const dispatch = useDispatch();
+const ForgetPassword = props => {
+  let history = useHistory();
+  const storeUserId = useSelector(state => state.auth.userId);
+  const [loading, setLoading] = useState(true);
+  const [submitloading, setSubmitLoading] = useState(false);
+ 
+  React.useEffect(() => {
+    if (storeUserId) {
+      history.push('/');
+    }
+    setLoading(false);
+  }, []);
 
-  const handleClose = (event, reason) => {
-    console.log('closed alerts');
-    setAlertOpen(false);
-  };
+  if (loading) return <div>loading...</div>
 
   return (
     <>
@@ -31,14 +36,14 @@ const ForgetPassword = () => {
             <Formik
               initialValues={{ email: '' }}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-                toast("We have sent a link to reset your password. please Check Mail", {
-                  closeButton: CloseIcon,
-                  className: commonMessages.success,
-                });
+                setSubmitLoading(true);
+                props.forgotPassword(values).then(res => {
+                  setSubmitLoading(false);
+                }).catch(e => setSubmitLoading(false));
+                setSubmitting(false);
               }}
               validationSchema={Yup.object().shape({
-                email: Yup.string().email().required('Email is required'),
+                email: Yup.string().email('Email is invalid').required('Email is required'),
               })}
             >
               {(props) => {
@@ -75,7 +80,7 @@ const ForgetPassword = () => {
                         }
                       />
                       <div className="form-group text-center">
-                        <button type="submit" className="blue-btn">Submit</button>
+                        <button disabled={submitloading} type="submit" className="blue-btn">Submit</button>
                       </div>
                       <div className="form-group-btn text-center">
                         <Link to="/sign-in" className="sign-in">
@@ -94,4 +99,6 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default connect(null, {
+  forgotPassword
+})(ForgetPassword);

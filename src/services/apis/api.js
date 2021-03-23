@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthAPI from "./authApi";
 
-const BASEURL = "https://jsonplaceholder.typicode.com";
+const BASEURL = "https://api.v-site.xyz/api/v1";
 
 class API {
   __auth = new AuthAPI();

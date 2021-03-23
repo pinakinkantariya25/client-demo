@@ -3,8 +3,14 @@ class AuthService {
   getDetail() {
     return api.auth.getDetail();
   }
-  postFormData(formData) {
-    return api.auth.postFormData(formData);
+  postLogIn(formData) {
+    return api.auth.postLogIn(formData);
+  }
+  postForgotPassword(formData) {
+    return api.auth.postForgotPassword(formData);
+  }
+  postResetPassword(formData) {
+    return api.auth.postResetPassword(formData);
   }
 }
 

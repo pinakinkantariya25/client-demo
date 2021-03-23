@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
-import {connect,useDispatch} from 'react-redux';
+import {useHistory, useParams} from 'react-router-dom';  
+import {connect, useSelector} from 'react-redux';
 import {resetPassword} from '../../actions/authAction';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../common/TextInput';
-import Snackbar from '@material-ui/core/Snackbar';
+import {useQuery} from '../../helpers/getQuery';
 import './index.scss';
 import Vsite from '../../images/Vsite.png';
 
 const ResetPassword = (props) => {
-  const [alertOpen, setAlertOpen] = useState(false);
-  const dispatch = useDispatch();
+  let query = useQuery();
+  const [loading, setLoading] = useState(true);
+  const storeUserId = useSelector(state => state.auth.userId);
+  const storeLoader = useSelector(state => state.auth.loading);
+  let history = useHistory();
+  let { userId } = useParams();
 
   React.useEffect(() => {
-    console.log(props.auth, 'auth');
-  }, [props.auth]);
+    if (!userId) {
+      history.push('/');
+    }
+    if (storeUserId) {
+      history.push('/');
+    }
+    setLoading(false);
+  }, []);
 
-  const handleClose = (event, reason) => {
-    console.log('closed alerts');
-    setAlertOpen(false);
-  };
+  if (loading) return <div>loading...</div>
 
   return (
     <>
@@ -32,19 +40,21 @@ const ResetPassword = (props) => {
             <Formik
               initialValues={{ newPassword: '', confirmPassword: '' }}
               onSubmit={(values, { setSubmitting }) => {
-                console.log('Logging in', values);
-                props.resetPassword(values)
+                props.resetPassword({
+                  newPassword: values.newPassword,
+                  userId
+                });
                 setSubmitting(false);
               }}
               validationSchema={Yup.object().shape({
                 newPassword: Yup.string()
-                .required('Password is required')
+                .required('New Password is required')
                 .matches(
                   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                   "Must Contain 8 Characters, One Number and one special case Character"
                 ),
                 confirmPassword: Yup.string()
-                .required('Password is required')
+                .required('Confirm Password is required')
                 .matches(
                   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                   "Must Contain 8 Characters, One Number and one special case Character"
@@ -105,7 +115,7 @@ const ResetPassword = (props) => {
                         }
                       />
                       <div className="form-group text-center">
-                        <button type="submit" className="blue-btn">
+                        <button disabled={storeLoader} type="submit" className="blue-btn">
                           {' '}
                           Submit{' '}
                         </button>
@@ -118,28 +128,11 @@ const ResetPassword = (props) => {
           </div>
         </div>
       </section>
-
-      <Snackbar
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        message="Your password has been updated successfully."
-        open={alertOpen}
-        action={
-          <button className="cross-btn" onClick={handleClose}>
-            <i className="icon-close"></i>
-          </button>
-        }
-        TransitionProps={{
-          appear: false,
-        }}
-      ></Snackbar>
     </>
   );
 };
 
-const mapStateToProps = state => ({auth: state.auth});
 
-export default connect(mapStateToProps, {
+export default connect(null, {
   resetPassword
 })(ResetPassword);
