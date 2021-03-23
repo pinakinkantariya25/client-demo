@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
+import { toast } from "react-toastify";
+import { commonMessages } from "../../constants/commonMessages";
+import CloseIcon from "../common/CloseIcon";
 
 const Profile = () => {
   return (
@@ -21,12 +24,27 @@ const Profile = () => {
           initialValues={{ firstname: "", lastname: "", email: "", number: "" }}
           onSubmit={(values, { setSubmitting }) => {
             console.log("submit form", values);
+            toast("Your Profile is updated successfully", {
+              closeButton: CloseIcon,
+              className: commonMessages.success,
+            });
           }}
           validationSchema={Yup.object().shape({
-            firstname: Yup.string().required("First Name is required"),
-            lastname: Yup.string().required("Last Name is required"),
-            number: Yup.string().required("Number is required"),
-            email: Yup.string().email().required("Email is required"),
+            firstname: Yup.string()
+              .required("First Name is required")
+              .matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid First Name"),
+            lastname: Yup.string()
+              .required("Last Name is required")
+              .matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid Last Name"),
+            number: Yup.string()
+              .required("Contact Number is required")
+              .matches(
+                /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                "Please enter 10 digit contact number"
+              ),
+            email: Yup.string()
+              .email("Enter a valid Email ID")
+              .required("Email ID is required"),
           })}
         >
           {(props) => {
@@ -39,6 +57,7 @@ const Profile = () => {
               handleBlur,
               handleSubmit,
             } = props;
+
             return (
               <form onSubmit={handleSubmit}>
                 <div className="panel-body admin-profile">
@@ -78,7 +97,7 @@ const Profile = () => {
                         <label>Email ID *</label>
                         <TextInput
                           className="form-control"
-                          type="email"
+                          type="text"
                           name="email"
                           value={values.email}
                           onChange={handleChange}

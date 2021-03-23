@@ -1,10 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
+import axios from "axios";
+import authService from "../../services/authService";
+import { useSelector, connect } from "react-redux";
+import { changePassword } from "../../actions/authAction";
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
+  const [error, setError] = useState("");
+  const userId = useSelector((state) => state.auth.userId);
   return (
     <section className="content-wapper">
       <div className="breadcrumb">
@@ -23,32 +29,60 @@ const ChangePassword = () => {
         </div>
         <Formik
           initialValues={{
-            password: "",
-            currentpassword: "",
+            oldPassword: "",
+            newPassword: "",
             reenterpassword: "",
           }}
           onSubmit={(values, { setSubmitting }) => {
+            setError("");
+            props
+              .changePassword({
+                oldPassword: values.oldPassword,
+                newPassword: values.newPassword,
+                userId,
+              })
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((error) => {
+                setError(error.response.data.message);
+                console.log(error.response.data.message);
+              });
             console.log("submit form", values);
           }}
           validationSchema={Yup.object().shape({
-            password: Yup.string()
+            oldPassword: Yup.string()
               .required("Current Password is required")
               .matches(
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                 "Must Contain 8 Characters, One Number and one special case Character"
               ),
-            currentpassword: Yup.string()
+            newPassword: Yup.string()
               .required("New Password is required")
               .matches(
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                 "Must Contain 8 Characters, One Number and one special case Character"
-              ),
+              )
+              .when("oldPassword", {
+                is: (val) => (val && val.length > 0 ? true : false),
+                then: Yup.string().notOneOf(
+                  [Yup.ref.oldPassword],
+                  "New password and Current password need to be the different"
+                ),
+              }),
             reenterpassword: Yup.string()
-              .required("Re-enter Password is required")
+              .required("Re-enter New Password is required")
               .matches(
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                 "Must Contain 8 Characters, One Number and one special case Character"
-              ),
+              )
+              .when("newPassword", {
+                is: (val) => (val && val.length > 0 ? true : false),
+                then: Yup.string().oneOf(
+                  [Yup.ref("newPassword")],
+                  "New password and Re-enter new password need to be the same"
+                ),
+              }),
           })}
         >
           {(props) => {
@@ -71,11 +105,11 @@ const ChangePassword = () => {
                         <TextInput
                           className="form-control"
                           type="password"
-                          name="password"
-                          value={values.password}
+                          name="oldPassword"
+                          value={values.oldPassword}
                           onChange={handleChange}
-                          error={errors.password}
-                          touched={touched.password}
+                          error={errors.oldPassword}
+                          touched={touched.oldPassword}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -86,11 +120,11 @@ const ChangePassword = () => {
                         <TextInput
                           className="form-control"
                           type="password"
-                          name="currentpassword"
-                          value={values.currentpassword}
+                          name="newPassword"
+                          value={values.newPassword}
                           onChange={handleChange}
-                          error={errors.currentpassword}
-                          touched={touched.currentpassword}
+                          error={errors.newPassword}
+                          touched={touched.newPassword}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -111,7 +145,9 @@ const ChangePassword = () => {
                       </div>
                     </div>
                   </div>
+                  {error && <div className="error">{error}</div>}
                 </div>
+
                 <div className="panel-footer">
                   <button className="blue-btn">Change</button>
                 </div>
@@ -123,4 +159,7 @@ const ChangePassword = () => {
     </section>
   );
 };
-export default ChangePassword;
+
+export default connect(null, {
+  changePassword,
+})(ChangePassword);
