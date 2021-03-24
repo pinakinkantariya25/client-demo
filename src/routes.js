@@ -49,13 +49,15 @@ export default ({ childProps }) => {
       />
       <Router history={history}>
         <Switch>
-          <PublicRoute path="/sign-in" component={PublicLayout(SignIn)} />
+          <PublicRoute path="/sign-in" component={PublicLayout(SignIn)} exact />
           <PublicRoute
             path="/forgot-password"
+            exact
             component={PublicLayout(ForgetPassword)}
           />
           <PublicRoute
             path="/reset-password/:userId"
+            exact
             component={PublicLayout(ResetPassword)}
           />
           <PublicRoute path="/redirect" component={ResetRedirect} />
