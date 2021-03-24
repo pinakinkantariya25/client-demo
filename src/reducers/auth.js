@@ -1,9 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
+import AuthService from "../services/authService";
 
 export const defaultState = {
   loading: false,
   error: null,
-  userId: localStorage.getItem('userId'),
+  userId: AuthService.getUserId(),
 };
 
 export default (state = defaultState, action = {}) => {

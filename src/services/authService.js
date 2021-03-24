@@ -1,4 +1,8 @@
 import api from "./apis/api";
+import storage from "./storage";
+
+const USERID = "userId";
+
 class AuthService {
   getDetail() {
     return api.auth.getDetail();
@@ -14,6 +18,13 @@ class AuthService {
   }
   changePassword(formData) {
     return api.auth.changePassword(formData);
+  }
+
+  getUserId() {
+    return storage.get(USERID);
+  }
+  setUserId(value) {
+    storage.set(USERID, value);
   }
 }
 

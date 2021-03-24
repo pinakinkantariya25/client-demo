@@ -1,23 +1,19 @@
-import React, {useState} from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {connect} from 'react-redux';
-import {logIn} from '../../actions/authAction';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import TextInput from '../common/TextInput';
-import Vsite from '../../images/Vsite.png';
-import './index.scss';
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { logIn } from "../../actions/authAction";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import TextInput from "../common/TextInput";
+import Vsite from "../../images/Vsite.png";
+import "./index.scss";
 
 const SignIn = (props) => {
   let history = useHistory();
   const [loading, setLoading] = useState(true);
   const [submitloading, setSubmitLoading] = useState(false);
- 
+
   React.useEffect(() => {
-    console.log(props.auth);
-    if (props.auth.userId) {
-      history.push('/');
-    }
     setLoading(false);
   }, []);
 
@@ -25,7 +21,7 @@ const SignIn = (props) => {
     setSubmitLoading(props.auth.loading);
   }, [props.auth]);
 
-  if (loading) return <div>loading...</div>
+  if (loading) return <div>loading...</div>;
 
   return (
     <section className="main-authaticatoin-wraper">
@@ -35,21 +31,23 @@ const SignIn = (props) => {
         </div>
         <div className="auth-form-field-section">
           <Formik
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ email: "", password: "" }}
             onSubmit={(values, { setSubmitting }) => {
               props.logIn(values);
               setSubmitting(false);
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Email is invalid').required('Email is required'),
+              email: Yup.string()
+                .email("Email is invalid")
+                .required("Email is required"),
               password: Yup.string()
-                .required('Password is required')
+                .required("Password is required")
                 .matches(
                   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                   "Must Contain 8 Characters, One Number and one special case Character"
                 ),
-              })}
-              >
+            })}
+          >
             {(props) => {
               const {
                 values,
@@ -99,7 +97,11 @@ const SignIn = (props) => {
                       </Link>
                     </div>
                     <div className="form-group-btn">
-                      <button disabled={submitloading} className="blue-btn" type="submit">
+                      <button
+                        disabled={submitloading}
+                        className="blue-btn"
+                        type="submit"
+                      >
                         Sign In
                       </button>
                     </div>
@@ -114,11 +116,11 @@ const SignIn = (props) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth: state.auth
-  }
-}
+    auth: state.auth,
+  };
+};
 export default connect(mapStateToProps, {
-  logIn
+  logIn,
 })(SignIn);
