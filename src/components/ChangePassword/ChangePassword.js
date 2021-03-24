@@ -3,8 +3,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
-import axios from "axios";
-import authService from "../../services/authService";
 import { useSelector, connect } from "react-redux";
 import { changePassword } from "../../actions/authAction";
 

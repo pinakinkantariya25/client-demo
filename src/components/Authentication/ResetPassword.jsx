@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
-import {useHistory, useParams} from 'react-router-dom';  
-import {connect, useSelector} from 'react-redux';
-import {resetPassword} from '../../actions/authAction';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import TextInput from '../common/TextInput';
-import {useQuery} from '../../helpers/getQuery';
-import './index.scss';
-import Vsite from '../../images/Vsite.png';
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { connect, useSelector } from "react-redux";
+import { resetPassword } from "../../actions/authAction";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import TextInput from "../common/TextInput";
+import { useQuery } from "../../helpers/getQuery";
+import "./index.scss";
+import Vsite from "../../images/Vsite.png";
 
 const ResetPassword = (props) => {
   let query = useQuery();
   const [loading, setLoading] = useState(true);
-  const storeUserId = useSelector(state => state.auth.userId);
-  const storeLoader = useSelector(state => state.auth.loading);
+  const storeLoader = useSelector((state) => state.auth.loading);
   let history = useHistory();
   let { userId } = useParams();
 
   React.useEffect(() => {
     if (!userId) {
-      history.push('/');
-    }
-    if (storeUserId) {
-      history.push('/');
+      history.push("/");
     }
     setLoading(false);
   }, []);
 
-  if (loading) return <div>loading...</div>
+  if (loading) return <div>loading...</div>;
 
   return (
     <>
@@ -38,34 +34,34 @@ const ResetPassword = (props) => {
           </div>
           <div className="auth-form-field-section">
             <Formik
-              initialValues={{ newPassword: '', confirmPassword: '' }}
+              initialValues={{ newPassword: "", confirmPassword: "" }}
               onSubmit={(values, { setSubmitting }) => {
                 props.resetPassword({
                   newPassword: values.newPassword,
-                  userId
+                  userId,
                 });
                 setSubmitting(false);
               }}
               validationSchema={Yup.object().shape({
                 newPassword: Yup.string()
-                .required('New Password is required')
-                .matches(
-                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                  "Must Contain 8 Characters, One Number and one special case Character"
-                ),
+                  .required("New Password is required")
+                  .matches(
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                    "Must Contain 8 Characters, One Number and one special case Character"
+                  ),
                 confirmPassword: Yup.string()
-                .required('Confirm Password is required')
-                .matches(
-                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                  "Must Contain 8 Characters, One Number and one special case Character"
-                )
-                .when("newPassword", {
-                  is: val => (val && val.length > 0 ? true : false),
-                  then: Yup.string().oneOf(
-                    [Yup.ref("newPassword")],
-                    "Both password need to be the same"
+                  .required("Confirm Password is required")
+                  .matches(
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                    "Must Contain 8 Characters, One Number and one special case Character"
                   )
-                }),
+                  .when("newPassword", {
+                    is: (val) => (val && val.length > 0 ? true : false),
+                    then: Yup.string().oneOf(
+                      [Yup.ref("newPassword")],
+                      "Both password need to be the same"
+                    ),
+                  }),
               })}
             >
               {(props) => {
@@ -115,9 +111,13 @@ const ResetPassword = (props) => {
                         }
                       />
                       <div className="form-group text-center">
-                        <button disabled={storeLoader} type="submit" className="blue-btn">
-                          {' '}
-                          Submit{' '}
+                        <button
+                          disabled={storeLoader}
+                          type="submit"
+                          className="blue-btn"
+                        >
+                          {" "}
+                          Submit{" "}
                         </button>
                       </div>
                     </div>
@@ -132,7 +132,6 @@ const ResetPassword = (props) => {
   );
 };
 
-
 export default connect(null, {
-  resetPassword
+  resetPassword,
 })(ResetPassword);
