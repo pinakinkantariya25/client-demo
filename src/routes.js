@@ -1,61 +1,76 @@
 import React from "react";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
-import history from './history';
+import history from "./history";
+import AuthService from "./services/authService";
+import PublicLayout from "./containers/PublicLayout";
+import AdminLayout from "./containers/AdminLayout";
 import Profile from "./components/Profile";
-import Home from "./components/Home";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
-import SignIn from './components/Authentication/SignIn';
-import ForgetPassword from './components/Authentication/ForgetPassword';
-import ResetPassword from './components/Authentication/ResetPassword';
-import ResetRedirect from './components/Authentication/ResetRedirect';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import SignIn from "./components/Authentication/SignIn";
+import ForgetPassword from "./components/Authentication/ForgetPassword";
+import ResetPassword from "./components/Authentication/ResetPassword";
+import ResetRedirect from "./components/Authentication/ResetRedirect";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const userId = AuthService.getUserId();
   return (
     <Route
       {...rest}
       render={(props) =>
-        rest.auth ? <Component {...props} /> : <Redirect to="/sign-in" />
+        userId ? <Component {...props} /> : <Redirect to="/sign-in" />
       }
     />
   );
 };
 
-export default ({ childProps, userId }) => {
+export const PublicRoute = ({ component: Component, ...rest }) => {
+  const userId = AuthService.getUserId();
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        !userId ? <Component {...props} /> : <Redirect to="/" />
+      }
+    />
+  );
+};
+
+export default ({ childProps }) => {
   return (
     <div>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
-        draggable={false} 
+        draggable={false}
         closeOnClick={false}
         autoClose={6000}
       />
       <Router history={history}>
         <Switch>
-          <Route path="/sign-in" component={SignIn} />
-          <Route path="/forgot-password" component={ForgetPassword} />
-          <Route path="/reset-password/:userId" component={ResetPassword} />
-          <Route path="/redirect" component={ResetRedirect} />
-          <Route path="/" auth={userId}>
-            <Home>
-              <Switch>
-                <PrivateRoute
-                  path="/profile"
-                  exact
-                  auth={userId}
-                  component={Profile}
-                />
-                <PrivateRoute
-                  path="/profile/change-password"
-                  exact
-                  auth={userId}
-                  component={ChangePassword}
-                />
-              </Switch>
-            </Home>
-          </Route>
+          <PublicRoute path="/sign-in" component={PublicLayout(SignIn)} />
+          <PublicRoute
+            path="/forgot-password"
+            component={PublicLayout(ForgetPassword)}
+          />
+          <PublicRoute
+            path="/reset-password/:userId"
+            component={PublicLayout(ResetPassword)}
+          />
+          <PublicRoute path="/redirect" component={ResetRedirect} />
+          <PrivateRoute path="/" exact component={AdminLayout(Profile)} />
+          <PrivateRoute
+            path="/profile"
+            exact
+            component={AdminLayout(Profile)}
+          />
+          <PrivateRoute
+            path="/profile/change-password"
+            exact
+            component={AdminLayout(ChangePassword)}
+          />
+          <Redirect from="*" to="/sign-in" />
         </Switch>
       </Router>
     </div>
