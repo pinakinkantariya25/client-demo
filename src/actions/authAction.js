@@ -5,9 +5,7 @@ import {
   dehydrateForgotPassword,
   dehydrateResetPassword,
 } from "../services/transformers/authTransformer";
-import { toast } from "react-toastify";
-import CloseIcon from "../components/common/CloseIcon";
-import { commonMessages } from "../constants/commonMessages";
+import {customToast} from '../helpers/customToast';
 import history from "../history";
 
 const startLogin = () => {
@@ -42,16 +40,10 @@ export const logIn = (formProps) => async (dispatch) => {
     .catch((err) => {
       dispatch(loginError(err));
       if (err.response) {
-        toast(err.response.data.message, {
-          closeButton: CloseIcon,
-          className: commonMessages.error,
-        });
+        customToast.error(err.response.data.message)
         return;
       }
-      toast("Something went wrong!", {
-        closeButton: CloseIcon,
-        className: commonMessages.error,
-      });
+      customToast.error("Something went wrong!")
     });
 };
 
@@ -80,26 +72,17 @@ export const resetPassword = (formProps) => async (dispatch) => {
     .postResetPassword(dehydrateResetPassword(formProps))
     .then((res) => {
       dispatch(successResetPassword(formProps.userId));
-      toast("Your password has been updated successfully.", {
-        closeButton: CloseIcon,
-        className: commonMessages.success,
-      });
+      customToast.success('Your password has been updated successfully.');
       localStorage.setItem("userId", formProps.userId);
       history.push("/");
     })
     .catch((err) => {
       dispatch(resetPasswordError());
       if (err.response) {
-        toast(err.response.data.message, {
-          closeButton: CloseIcon,
-          className: commonMessages.error,
-        });
+        customToast.error(err.response.data.message);
         return;
       }
-      toast("Something went wrong!", {
-        closeButton: CloseIcon,
-        className: commonMessages.error,
-      });
+      customToast.error("Something went wrong!");
     });
 };
 
@@ -107,24 +90,15 @@ export const forgotPassword = (formProps) => async (dispatch) => {
   return authService
     .postForgotPassword(dehydrateForgotPassword(formProps))
     .then((res) => {
-      toast("We have sent a link to reset your password. please Check Mail", {
-        closeButton: CloseIcon,
-        className: commonMessages.success,
-      });
+      customToast.success("We have sent a link to reset your password. please Check Mail");
       return res;
     })
     .catch((e) => {
       if (e.response) {
-        toast(e.response.data.message, {
-          closeButton: CloseIcon,
-          className: commonMessages.error,
-        });
+        customToast.error(e.response.data.message);
         throw e;
       }
-      toast("Something went wrong!", {
-        closeButton: CloseIcon,
-        className: commonMessages.error,
-      });
+      customToast.error("Something went wrong!");
       throw e;
     });
 };
@@ -132,24 +106,15 @@ export const changePassword = (formProps) => async (dispatch) => {
   return authService
     .changePassword(formProps)
     .then((res) => {
-      toast("Change Password  successfully!", {
-        closeButton: CloseIcon,
-        className: commonMessages.success,
-      });
+      customToast.success("Change Password  successfully!");
       return res;
     })
     .catch((e) => {
       if (e.response) {
-        toast(e.response.data.message, {
-          closeButton: CloseIcon,
-          className: commonMessages.error,
-        });
+        customToast.error(e.response.data.message);
         throw e;
       }
-      toast("Something went wrong!", {
-        closeButton: CloseIcon,
-        className: commonMessages.error,
-      });
+      customToast.error("Something went wrong!");
       throw e;
     });
 };
