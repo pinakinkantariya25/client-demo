@@ -7,7 +7,7 @@ export const customToast = {
   success: (message) => {
     toast(message, {
       closeButton: CloseIcon,
-      className: commonMessages.error,
+      className: commonMessages.success,
     });
   },
   error: (message) => {
