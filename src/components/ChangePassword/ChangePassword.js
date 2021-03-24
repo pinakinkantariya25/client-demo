@@ -66,8 +66,8 @@ const ChangePassword = (props) => {
               .when("oldPassword", {
                 is: (val) => (val && val.length > 0 ? true : false),
                 then: Yup.string().notOneOf(
-                  [Yup.ref.oldPassword],
-                  "New password and Current password need to be the different"
+                  [Yup.ref("oldPassword")],
+                  "New password and Current password need to be different"
                 ),
               }),
             reenterpassword: Yup.string()
