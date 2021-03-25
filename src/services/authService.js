@@ -26,6 +26,9 @@ class AuthService {
   setUserId(value) {
     storage.set(USERID, value);
   }
+  removeUserId() {
+    storage.remove(USERID);
+  }
 }
 
 export default new AuthService();
