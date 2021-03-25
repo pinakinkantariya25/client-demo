@@ -3,11 +3,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
+import axios from "axios";
+import authService from "../../services/authService";
 import { useSelector, connect } from "react-redux";
 import { changePassword } from "../../actions/authAction";
 
 const ChangePassword = (props) => {
-  const [error, setError] = useState("");
   const userId = useSelector((state) => state.auth.userId);
   return (
     <section className="content-wapper">
@@ -31,8 +32,7 @@ const ChangePassword = (props) => {
             newPassword: "",
             reenterpassword: "",
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setError("");
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             props
               .changePassword({
                 oldPassword: values.oldPassword,
@@ -40,11 +40,10 @@ const ChangePassword = (props) => {
                 userId,
               })
               .then((res) => {
-                console.log(res);
+                resetForm();
               })
               .catch((error) => {
-                setError(error.response.data.message);
-                console.log(error.response.data.message);
+                // setError(error.response.data.message);
               });
             console.log("submit form", values);
           }}
@@ -143,7 +142,6 @@ const ChangePassword = (props) => {
                       </div>
                     </div>
                   </div>
-                  {error && <div className="error">{error}</div>}
                 </div>
 
                 <div className="panel-footer">

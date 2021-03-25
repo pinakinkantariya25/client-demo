@@ -38,10 +38,8 @@ const Profile = () => {
               .matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid Last Name"),
             number: Yup.string()
               .required("Contact Number is required")
-              .matches(
-                /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                "Please enter 10 digit contact number"
-              ),
+              .matches(/^[0-9]+$/, "Please enter digits only")
+              .matches(/^[0-9]{10}$/, "Please enter 10 digit contact number"),
             email: Yup.string()
               .email("Enter a valid Email ID")
               .required("Email ID is required"),
