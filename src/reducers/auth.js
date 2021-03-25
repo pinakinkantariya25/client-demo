@@ -47,7 +47,12 @@ export default (state = defaultState, action = {}) => {
         loading: false,
         error: action.payload,
       };
-
+    case actionTypes.SIGN_OUT:
+      return {
+        ...state,
+        loading: false,
+        userId: null,
+      };
     default:
       return state;
   }

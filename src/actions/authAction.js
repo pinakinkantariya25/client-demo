@@ -34,7 +34,7 @@ export const logIn = (formProps) => async (dispatch) => {
     .postLogIn(dehydrateSignIn(formProps))
     .then((res) => {
       dispatch(successLogin(res.data.data));
-      localStorage.setItem("userId", res.data.data.userId);
+      authService.setUserId(res.data.data.userId);
       history.push("/");
     })
     .catch((err) => {
@@ -116,4 +116,11 @@ export const changePassword = (formProps) => async (dispatch) => {
       customToast.error("Something went wrong!");
       throw e;
     });
+};
+export const signOut = () => {
+  authService.removeUserId();
+  history.push("/sign-in");
+  return {
+    type: actionTypes.SIGN_OUT,
+  };
 };
