@@ -73,8 +73,7 @@ export const resetPassword = (formProps) => async (dispatch) => {
     .then((res) => {
       dispatch(successResetPassword(formProps.userId));
       customToast.success('Your password has been updated successfully.');
-      localStorage.setItem("userId", formProps.userId);
-      history.push("/");
+      history.push("/sign-in");
     })
     .catch((err) => {
       dispatch(resetPasswordError());
