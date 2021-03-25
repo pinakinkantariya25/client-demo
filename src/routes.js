@@ -61,6 +61,7 @@ export default ({ childProps }) => {
             component={PublicLayout(ResetPassword)}
           />
           <PublicRoute path="/redirect" component={ResetRedirect} />
+          <PublicRoute path="/reset" component={ResetRedirect} />
           <PrivateRoute path="/" exact component={AdminLayout(Profile)} />
           <PrivateRoute
             path="/profile"
