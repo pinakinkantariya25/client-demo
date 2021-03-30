@@ -1,22 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-@import './base/variables';
-@import './iconmoon';
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+@import "./base/variables";
+@import "./iconmoon";
 
 *,
 ::after,
 ::before {
   box-sizing: border-box;
 }
-
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
   -webkit-tap-highlight-color: transparent;
 }
-
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.42;
@@ -27,7 +25,6 @@ body {
 img {
   max-width: 100%;
 }
-
 button {
   background: none;
   font-weight: 500;
@@ -39,12 +36,11 @@ button {
   -ms-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
-  &:focus {
-    box-shadow: none;
-    outline: none;
-  }
 }
-
+button:focus {
+  box-shadow: none;
+  outline: none;
+}
 p {
   margin: 0 0 10px;
   font-weight: 400;
@@ -53,7 +49,6 @@ p {
 .text-center {
   text-align: center;
 }
-
 .text-right {
   text-align: right;
 }
@@ -62,35 +57,31 @@ textarea.form-control {
   padding: 10px 15px;
   height: auto;
 }
-
 .form-group {
   margin: 0 0 15px;
-  .inner-form-group {
-    position: relative;
-    .auth-icons {
-      position: absolute;
-      top: 11px;
-      right: 15px;
-      &.font-email-set {
-        font-size: 11px;
-        top: 14px;
-      }
-    }
-  }
-  label {
-    font-weight: 400;
-    margin: 0 0 5px;
-    display: inline-block;
-  }
 }
-
+.form-group .inner-form-group {
+  position: relative;
+}
+.form-group .inner-form-group .auth-icons {
+  position: absolute;
+  top: 11px;
+  right: 15px;
+}
+.form-group label {
+  font-weight: 500;
+  margin: 0 0 5px;
+  display: inline-block;
+  color: #3a393b;
+  font-size: 14px;
+}
 .form-control {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   display: block;
   width: 100%;
   height: 40px;
   padding: 0 15px;
-  border-color: $fc-border;
+  border-color: #888888;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
@@ -100,15 +91,10 @@ textarea.form-control {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  &:focus {
-    outline: none;
-    border-color: $blue-focus;
-  }
 }
-.form-error {
-  font-size: 14px;
-  color: #ff0033;
-  margin-top: 5px;
+.form-control:focus {
+  outline: none;
+  border-color: #256ca9;
 }
 
 /* Comman Button */
@@ -125,7 +111,7 @@ textarea.form-control {
   background: #e1e1e1;
   padding: 10px 20px;
   border-radius: 5px;
-  color: $btn-gray;
+  color: #444444;
 }
 
 /* Toggle Button Fro Switch */
@@ -133,7 +119,7 @@ textarea.form-control {
   position: relative;
   display: inline-block;
 }
-.toggle input[type='checkbox'] {
+.toggle input[type="checkbox"] {
   height: 0;
   width: 0;
   visibility: hidden;
@@ -150,13 +136,13 @@ textarea.form-control {
   position: relative;
 }
 .toggle label:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;
   width: 16px;
   height: 16px;
-  background: #fff;
+  background: $white;
   border-radius: 16px;
   transition: 0.3s;
 }
@@ -174,11 +160,11 @@ textarea.form-control {
   margin: 0 -15px;
 }
 .vrow::after {
-  content: '';
+  content: "";
   clear: both;
   display: table;
 }
-[class*='vcol-'] {
+[class*="vcol-"] {
   float: left;
   padding: 0 15px;
 }
@@ -244,7 +230,7 @@ textarea.form-control {
     max-width: 440px;
     box-shadow: 0px 0px 13px 0px #404040;
     min-height: 1px;
-    color: #fff;
+    color: $white;
     &.success {
       background: rgb(2, 158, 0);
     }
@@ -263,7 +249,13 @@ textarea.form-control {
       align-items: center;
     }
     .cross-btn {
-      color: #fff;
+      color: $white;
     }
   }
+}
+
+.form-error {
+  font-size: 14px;
+  color: #ff0033;
+  margin-top: 5px;
 }

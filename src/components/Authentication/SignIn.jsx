@@ -5,7 +5,8 @@ import { logIn } from "../../actions/authAction";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "../common/TextInput";
-import Vsite from "../../images/Vsite.png";
+import { signInMessages } from "../../constants/validationMessages";
+import Logo from "../../images/blue-logo.svg";
 import "./index.scss";
 
 const SignIn = (props) => {
@@ -27,7 +28,7 @@ const SignIn = (props) => {
     <section className="main-authaticatoin-wraper">
       <div className="auth-center-segment">
         <div className="auth-logo-top">
-          <img src={Vsite} alt="Vsite" />
+          <img src={Logo} alt="Logo" />
         </div>
         <div className="auth-form-field-section">
           <Formik
@@ -38,14 +39,9 @@ const SignIn = (props) => {
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
-                .email("Email is invalid")
-                .required("Email is required"),
-              password: Yup.string()
-                .required("Password is required")
-                .matches(
-                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                  "Must Contain 8 Characters, One Number and one special case Character"
-                ),
+                .email(signInMessages.emailValid)
+                .required(signInMessages.emailRequired),
+              password: Yup.string().required(signInMessages.passwordRequired),
             })}
           >
             {(props) => {

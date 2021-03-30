@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
-import img1 from "../../images/logo.png";
-import img2 from "../../images/v-logo.png";
+import Logo from "../../images/logo.svg";
 import { BrowserRouter as Router, NavLink } from "react-router-dom";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { signOut } from "../../actions/authAction";
 import "./index.scss";
 
@@ -18,8 +17,7 @@ class Home extends Component {
           <div className="inner-nav">
             <div className="company-logo">
               <div className="pic">
-                <img src={img1} className="on-open" alt="logo" />{" "}
-                <img src={img2} className="on-close" alt="logo" />
+                <img src={Logo} alt="logo" />
               </div>
             </div>
             <div className="profile">
@@ -75,7 +73,12 @@ class Home extends Component {
           <div className="sign-out">
             <button>
               <i className="icon-signout"></i>
-              <div onClick={() => this.props.signOut()} className="sign-out-text">Sign Out</div>
+              <div
+                onClick={() => this.props.signOut()}
+                className="sign-out-text"
+              >
+                Sign Out
+              </div>
             </button>
           </div>
         </nav>
@@ -94,4 +97,4 @@ class Home extends Component {
   }
 }
 
-export default connect(null, {signOut})(Home);
+export default connect(null, { signOut })(Home);

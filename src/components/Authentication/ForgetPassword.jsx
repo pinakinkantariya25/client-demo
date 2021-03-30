@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import * as Yup from "yup";
 import TextInput from "../common/TextInput";
 import { forgotPassword } from "../../actions/authAction";
-import Vsite from "../../images/Vsite.png";
+import { forgotPasswordMessages } from "../../constants/validationMessages";
+import Logo from "../../images/blue-logo.svg";
 import "./index.scss";
 
 const ForgetPassword = (props) => {
@@ -23,7 +24,7 @@ const ForgetPassword = (props) => {
       <section className="main-authaticatoin-wraper">
         <div className="auth-center-segment">
           <div className="auth-logo-top">
-            <img src={Vsite} alt="logo" />
+            <img src={Logo} alt="logo" />
           </div>
           <div className="auth-form-field-section">
             <Formik
@@ -40,8 +41,8 @@ const ForgetPassword = (props) => {
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string()
-                  .email("Email is invalid")
-                  .required("Email is required"),
+                  .email(forgotPasswordMessages.emailValid)
+                  .required(forgotPasswordMessages.emailRequired),
               })}
             >
               {(props) => {

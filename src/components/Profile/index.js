@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import { toast } from "react-toastify";
 import { commonMessages } from "../../constants/commonMessages";
+import { profileMessages } from "../../constants/validationMessages";
 import CloseIcon from "../common/CloseIcon";
 
 const Profile = () => {
@@ -31,18 +32,18 @@ const Profile = () => {
           }}
           validationSchema={Yup.object().shape({
             firstname: Yup.string()
-              .required("First Name is required")
-              .matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid First Name"),
+              .required(profileMessages.firstnameRequired)
+              .matches(/^[a-zA-Z ]{2,30}$/, profileMessages.firstnameValid),
             lastname: Yup.string()
-              .required("Last Name is required")
-              .matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid Last Name"),
+              .required(profileMessages.lastnameRequired)
+              .matches(/^[a-zA-Z ]{2,30}$/, profileMessages.lastnameValid),
             number: Yup.string()
-              .required("Contact Number is required")
-              .matches(/^[0-9]+$/, "Please enter digits only")
-              .matches(/^[0-9]{10}$/, "Please enter 10 digit contact number"),
+              .required(profileMessages.numberRequired)
+              .matches(/^[0-9]+$/, profileMessages.numberDigitsOnly)
+              .matches(/^[0-9]{10}$/, profileMessages.numberMaxLength),
             email: Yup.string()
-              .email("Enter a valid Email ID")
-              .required("Email ID is required"),
+              .email(profileMessages.emailIDValid)
+              .required(profileMessages.emailIDRequired),
           })}
         >
           {(props) => {

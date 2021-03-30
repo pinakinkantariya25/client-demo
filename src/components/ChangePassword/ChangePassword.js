@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import axios from "axios";
 import authService from "../../services/authService";
+import { changePasswordMessages } from "../../constants/validationMessages";
 import { useSelector, connect } from "react-redux";
 import { changePassword } from "../../actions/authAction";
 
@@ -30,7 +31,7 @@ const ChangePassword = (props) => {
           initialValues={{
             oldPassword: "",
             newPassword: "",
-            reenterpassword: "",
+            confirmNewPassword: "",
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             props
@@ -48,36 +49,25 @@ const ChangePassword = (props) => {
             console.log("submit form", values);
           }}
           validationSchema={Yup.object().shape({
-            oldPassword: Yup.string()
-              .required("Current Password is required")
-              .matches(
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                "Must Contain 8 Characters, One Number and one special case Character"
-              ),
+            oldPassword: Yup.string().required(
+              changePasswordMessages.oldPasswordRequired
+            ),
             newPassword: Yup.string()
-              .required("New Password is required")
-              .matches(
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                "Must Contain 8 Characters, One Number and one special case Character"
-              )
+              .required(changePasswordMessages.newPasswordRequired)
               .when("oldPassword", {
                 is: (val) => (val && val.length > 0 ? true : false),
                 then: Yup.string().notOneOf(
                   [Yup.ref("oldPassword")],
-                  "New password and Current password need to be different"
+                  changePasswordMessages.differentPassword
                 ),
               }),
-            reenterpassword: Yup.string()
-              .required("Re-enter New Password is required")
-              .matches(
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                "Must Contain 8 Characters, One Number and one special case Character"
-              )
+            confirmNewPassword: Yup.string()
+              .required(changePasswordMessages.confirmPasswordRequired)
               .when("newPassword", {
                 is: (val) => (val && val.length > 0 ? true : false),
                 then: Yup.string().oneOf(
                   [Yup.ref("newPassword")],
-                  "New password and Re-enter new password need to be the same"
+                  changePasswordMessages.samePassword
                 ),
               }),
           })}
@@ -128,15 +118,15 @@ const ChangePassword = (props) => {
                     </div>
                     <div className="vcol-4">
                       <div className="form-group">
-                        <label>Re-enter new password *</label>
+                        <label>Confirm new password *</label>
                         <TextInput
                           className="form-control"
                           type="password"
-                          name="reenterpassword"
-                          value={values.reenterpassword}
+                          name="confirmNewPassword"
+                          value={values.confirmNewPassword}
                           onChange={handleChange}
-                          error={errors.reenterpassword}
-                          touched={touched.reenterpassword}
+                          error={errors.confirmNewPassword}
+                          touched={touched.confirmNewPassword}
                           onBlur={handleBlur}
                         />
                       </div>

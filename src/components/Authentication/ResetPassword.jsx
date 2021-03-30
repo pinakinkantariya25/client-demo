@@ -6,8 +6,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "../common/TextInput";
 import { useQuery } from "../../helpers/getQuery";
+import { resetPasswordMessages } from "../../constants/validationMessages";
 import "./index.scss";
-import Vsite from "../../images/Vsite.png";
+import Logo from "../../images/blue-logo.svg";
 
 const ResetPassword = (props) => {
   let query = useQuery();
@@ -30,7 +31,7 @@ const ResetPassword = (props) => {
       <section className="main-authaticatoin-wraper">
         <div className="auth-center-segment">
           <div className="auth-logo-top">
-            <img src={Vsite} alt="logo" />
+            <img src={Logo} alt="logo" />
           </div>
           <div className="auth-form-field-section">
             <Formik
@@ -43,18 +44,11 @@ const ResetPassword = (props) => {
                 setSubmitting(false);
               }}
               validationSchema={Yup.object().shape({
-                newPassword: Yup.string()
-                  .required("New Password is required")
-                  .matches(
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                    "Must Contain 8 Characters, One Number and one special case Character"
-                  ),
+                newPassword: Yup.string().required(
+                  resetPasswordMessages.newPasswordRequired
+                ),
                 confirmPassword: Yup.string()
-                  .required("Confirm Password is required")
-                  .matches(
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                    "Must Contain 8 Characters, One Number and one special case Character"
-                  )
+                  .required(resetPasswordMessages.confirmPasswordRequired)
                   .when("newPassword", {
                     is: (val) => (val && val.length > 0 ? true : false),
                     then: Yup.string().oneOf(
