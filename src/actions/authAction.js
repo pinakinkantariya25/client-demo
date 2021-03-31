@@ -4,8 +4,9 @@ import {
   dehydrateSignIn,
   dehydrateForgotPassword,
   dehydrateResetPassword,
+  hydrateLogin,
 } from "../services/transformers/authTransformer";
-import {customToast} from '../helpers/customToast';
+import { customToast } from "../helpers/customToast";
 import history from "../history";
 
 const startLogin = () => {
@@ -17,7 +18,7 @@ const startLogin = () => {
 const successLogin = (data) => {
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    payload: data.userId,
+    payload: data,
   };
 };
 
@@ -33,17 +34,17 @@ export const logIn = (formProps) => async (dispatch) => {
   authService
     .postLogIn(dehydrateSignIn(formProps))
     .then((res) => {
-      dispatch(successLogin(res.data.data));
-      authService.setUserId(res.data.data.userId);
+      dispatch(successLogin(res));
+      authService.setToken(res.token);
       history.push("/");
     })
     .catch((err) => {
       dispatch(loginError(err));
       if (err.response) {
-        customToast.error(err.response.data.message)
+        customToast.error(err.response.data.message);
         return;
       }
-      customToast.error("Something went wrong!")
+      customToast.error("Something went wrong!");
     });
 };
 
@@ -53,10 +54,9 @@ const startResetPassword = () => {
   };
 };
 
-const successResetPassword = (data) => {
+const successResetPassword = () => {
   return {
     type: actionTypes.RESET_PASSWORD_SUCCESS,
-    payload: data,
   };
 };
 
@@ -71,8 +71,8 @@ export const resetPassword = (formProps) => async (dispatch) => {
   authService
     .postResetPassword(dehydrateResetPassword(formProps))
     .then((res) => {
-      dispatch(successResetPassword(formProps.userId));
-      customToast.success('Your password has been updated successfully.');
+      dispatch(successResetPassword());
+      customToast.success("Your password has been updated successfully.");
       history.push("/sign-in");
     })
     .catch((err) => {
@@ -89,7 +89,9 @@ export const forgotPassword = (formProps) => async (dispatch) => {
   return authService
     .postForgotPassword(dehydrateForgotPassword(formProps))
     .then((res) => {
-      customToast.success("We have sent a link to reset your password. please Check Mail");
+      customToast.success(
+        "We have sent a link to reset your password. please Check Mail"
+      );
       return res;
     })
     .catch((e) => {
@@ -118,7 +120,7 @@ export const changePassword = (formProps) => async (dispatch) => {
     });
 };
 export const signOut = () => {
-  authService.removeUserId();
+  authService.removeToken();
   history.push("/sign-in");
   return {
     type: actionTypes.SIGN_OUT,

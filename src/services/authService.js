@@ -1,14 +1,15 @@
 import api from "./apis/api";
 import storage from "./storage";
+import { hydrateLogin } from "./transformers/authTransformer";
 
-const USERID = "userId";
+const TOKEN = "token";
 
 class AuthService {
   getDetail() {
     return api.auth.getDetail();
   }
   postLogIn(formData) {
-    return api.auth.postLogIn(formData);
+    return api.auth.postLogIn(formData).then(hydrateLogin);
   }
   postForgotPassword(formData) {
     return api.auth.postForgotPassword(formData);
@@ -20,14 +21,14 @@ class AuthService {
     return api.auth.changePassword(formData);
   }
 
-  getUserId() {
-    return storage.get(USERID);
+  getToken() {
+    return storage.get(TOKEN);
   }
-  setUserId(value) {
-    storage.set(USERID, value);
+  setToken(value) {
+    storage.set(TOKEN, value);
   }
-  removeUserId() {
-    storage.remove(USERID);
+  removeToken() {
+    storage.remove(TOKEN);
   }
 }
 

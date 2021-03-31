@@ -14,24 +14,24 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const userId = AuthService.getUserId();
+  const token = AuthService.getToken();
   return (
     <Route
       {...rest}
       render={(props) =>
-        userId ? <Component {...props} /> : <Redirect to="/sign-in" />
+        token ? <Component {...props} /> : <Redirect to="/sign-in" />
       }
     />
   );
 };
 
 export const PublicRoute = ({ component: Component, ...rest }) => {
-  const userId = AuthService.getUserId();
+  const token = AuthService.getToken();
   return (
     <Route
       {...rest}
       render={(props) =>
-        !userId ? <Component {...props} /> : <Redirect to="/" />
+        !token ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

@@ -4,7 +4,6 @@ import AuthService from "../services/authService";
 export const defaultState = {
   loading: false,
   error: null,
-  userId: AuthService.getUserId(),
 };
 
 export default (state = defaultState, action = {}) => {
@@ -19,7 +18,6 @@ export default (state = defaultState, action = {}) => {
       return {
         ...state,
         loading: false,
-        userId: action.payload,
         error: null,
       };
     case actionTypes.LOGIN_ERROR:
@@ -38,7 +36,6 @@ export default (state = defaultState, action = {}) => {
       return {
         ...state,
         loading: false,
-        userId: action.payload,
         error: null,
       };
     case actionTypes.RESET_PASSWORD_ERROR:
@@ -51,7 +48,6 @@ export default (state = defaultState, action = {}) => {
       return {
         ...state,
         loading: false,
-        userId: null,
       };
     default:
       return state;

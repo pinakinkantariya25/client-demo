@@ -24,8 +24,6 @@ const ResetPassword = (props) => {
     setLoading(false);
   }, []);
 
-  if (loading) return <div>loading...</div>;
-
   return (
     <>
       <section className="main-authaticatoin-wraper">

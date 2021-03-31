@@ -6,11 +6,10 @@ import TextInput from "../common/TextInput";
 import axios from "axios";
 import authService from "../../services/authService";
 import { changePasswordMessages } from "../../constants/validationMessages";
-import { useSelector, connect } from "react-redux";
+import { connect } from "react-redux";
 import { changePassword } from "../../actions/authAction";
 
 const ChangePassword = (props) => {
-  const userId = useSelector((state) => state.auth.userId);
   return (
     <section className="content-wapper">
       <div className="breadcrumb">
@@ -38,7 +37,6 @@ const ChangePassword = (props) => {
               .changePassword({
                 oldPassword: values.oldPassword,
                 newPassword: values.newPassword,
-                userId,
               })
               .then((res) => {
                 resetForm();

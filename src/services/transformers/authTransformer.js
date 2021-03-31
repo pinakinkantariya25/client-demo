@@ -1,7 +1,7 @@
 export function dehydrateSignIn(params) {
   return {
     userName: params.email,
-    password: params.password
+    password: params.password,
   };
 }
 
@@ -14,6 +14,14 @@ export function dehydrateForgotPassword(params) {
 export function dehydrateResetPassword(params) {
   return {
     newPassword: params.newPassword,
-    userId: params.userId
+    userId: params.userId,
+  };
+}
+
+export function hydrateLogin(data) {
+  return {
+    userId: data.userId,
+    token: data.jwtToken,
+    userRole: data.userRole,
   };
 }

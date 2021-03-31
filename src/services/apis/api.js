@@ -1,5 +1,6 @@
 import axios from "axios";
 import AuthAPI from "./authApi";
+import storage from "../storage";
 
 const BASEURL = "https://api.v-site.xyz/api/v1";
 
@@ -31,7 +32,13 @@ class API {
   }
 
   sendRequestInternal(requestFunc, url, ...args) {
-    return requestFunc(url, ...args);
+    const token = storage.get("token");
+    if (token) {
+      this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    return requestFunc(url, ...args).then(
+      (response) => response.data && response.data.data
+    );
   }
 }
 

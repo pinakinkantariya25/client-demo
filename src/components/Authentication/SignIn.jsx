@@ -22,8 +22,6 @@ const SignIn = (props) => {
     setSubmitLoading(props.auth.loading);
   }, [props.auth]);
 
-  if (loading) return <div>loading...</div>;
-
   return (
     <section className="main-authaticatoin-wraper">
       <div className="auth-center-segment">
